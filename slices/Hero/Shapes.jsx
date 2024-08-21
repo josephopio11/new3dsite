@@ -8,7 +8,7 @@ import * as THREE from "three";
 
 export function Shapes() {
   return (
-    <div className="row-span-1 row-start-1 -mt-9 aspect-square  md:col-span-1 md:col-start-2 md:mt-0 h-full">
+    <div className="row-span-1 row-start-1 -mt-9 h-full w-full aspect-square  md:col-span-1 md:col-start-2 md:mt-0">
       <Canvas
         className="z-0"
         shadows
@@ -25,7 +25,7 @@ export function Shapes() {
             blur={1}
             far={9}
           />
-          <Environment preset="sunset" />
+          <Environment preset="studio" />
         </Suspense>
       </Canvas>
     </div>
@@ -61,102 +61,64 @@ function Geometries() {
     },
   ];
 
+  const soundEffects = [
+    new Audio("/sounds/hit2.ogg"),
+    new Audio("/sounds/hit3.ogg"),
+    new Audio("/sounds/hit4.ogg"),
+  ];
+
   const materials = [
     new THREE.MeshNormalMaterial(),
     new THREE.MeshStandardMaterial({
-      color: 0x27ae60,
+      color: 0x2ecc71,
       roughness: 0,
       metalness: 0.5,
     }),
     new THREE.MeshStandardMaterial({
-      color: 0xe67e22,
-      roughness: 0,
-      metalness: 0.5,
-    }),
-    new THREE.MeshStandardMaterial({
-      color: 0x2980b9,
-      roughness: 0,
-      metalness: 0.5,
-    }),
-    new THREE.MeshStandardMaterial({
-      color: 0x8e44ad,
-      roughness: 0,
-      metalness: 0.5,
-    }),
-    new THREE.MeshStandardMaterial({
-      color: 0x95a5a6,
-      roughness: 0,
+      color: 0xf1c40f,
+      roughness: 0.4,
       metalness: 0.5,
     }),
     new THREE.MeshStandardMaterial({
       color: 0xe74c3c,
-      roughness: 0,
+      roughness: 0.1,
       metalness: 0.5,
     }),
     new THREE.MeshStandardMaterial({
-      color: 0xd35400,
-      roughness: 0,
-      metalness: 0.5,
-    }),
-    new THREE.MeshStandardMaterial({
-      color: 0xf39c12,
-      roughness: 0,
-      metalness: 0.5,
-    }),
-    new THREE.MeshStandardMaterial({
-      color: 0x7f8c8d,
-      roughness: 0,
+      color: 0x8e44ad,
+      roughness: 0.1,
       metalness: 0.5,
     }),
     new THREE.MeshStandardMaterial({
       color: 0x1abc9c,
-      roughness: 0,
+      roughness: 0.1,
       metalness: 0.5,
     }),
     new THREE.MeshStandardMaterial({
-      color: 0x3498db,
       roughness: 0,
       metalness: 0.5,
+      color: 0x2980b9,
     }),
     new THREE.MeshStandardMaterial({
-      color: 0xecf0f1,
-      roughness: 0,
-      metalness: 0.5,
-    }),
-    new THREE.MeshStandardMaterial({
-      color: 0xc0392b,
-      roughness: 0,
+      color: 0x2c3e50,
+      roughness: 0.1,
       metalness: 0.5,
     }),
   ];
 
-  const soundEffects = [
-    new Audio("/sounds/1.ogg"),
-    new Audio("/sounds/2.ogg"),
-    new Audio("/sounds/3.ogg"),
-    new Audio("/sounds/4.ogg"),
-    new Audio("/sounds/5.ogg"),
-    new Audio("/sounds/6.ogg"),
-    new Audio("/sounds/7.ogg"),
-    new Audio("/sounds/8.ogg"),
-    new Audio("/sounds/9.ogg"),
-    new Audio("/sounds/10.ogg"),
-    new Audio("/sounds/11.ogg"),
-  ];
-
-  return geometries.map(({ position, r, geometry }, i) => (
+  return geometries.map(({ position, r, geometry }) => (
     <Geometry
-      key={i}
-      r={r}
+      key={JSON.stringify(position)} // Unique key
       position={position.map((p) => p * 2)}
       geometry={geometry}
-      materials={materials}
       soundEffects={soundEffects}
+      materials={materials}
+      r={r}
     />
   ));
 }
 
-function Geometry({ r, position, geometry, materials, soundEffects }) {
+function Geometry({ r, position, geometry, soundEffects, materials }) {
   const meshRef = useRef();
   const [visible, setVisible] = useState(false);
 
@@ -176,7 +138,7 @@ function Geometry({ r, position, geometry, materials, soundEffects }) {
       y: `+=${gsap.utils.random(0, 2)}`,
       z: `+=${gsap.utils.random(0, 2)}`,
       duration: 1.3,
-      ease: "elastic.inOut(1, 0.3)",
+      ease: "elastic.out(1,0.3)",
       yoyo: true,
     });
 
@@ -198,12 +160,12 @@ function Geometry({ r, position, geometry, materials, soundEffects }) {
         x: 0,
         y: 0,
         z: 0,
-        duration: 1,
-        ease: "elastic.out(1, 0.3)",
+        duration: gsap.utils.random(0.8, 1.2),
+        ease: "elastic.out(1,0.3)",
+        delay: gsap.utils.random(0, 0.5),
       });
-
-      return () => ctx.revert();
     });
+    return () => ctx.revert();
   }, []);
 
   return (
@@ -216,7 +178,7 @@ function Geometry({ r, position, geometry, materials, soundEffects }) {
           onPointerOut={handlePointerOut}
           visible={visible}
           material={startingMaterial}
-        />
+        ></mesh>
       </Float>
     </group>
   );
