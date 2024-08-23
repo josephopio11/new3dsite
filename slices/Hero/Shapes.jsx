@@ -25,7 +25,7 @@ export function Shapes() {
             blur={1}
             far={9}
           />
-          <Environment preset="studio" />
+          <Environment preset="sunset" />
         </Suspense>
       </Canvas>
     </div>
@@ -62,9 +62,17 @@ function Geometries() {
   ];
 
   const soundEffects = [
-    new Audio("/sounds/hit2.ogg"),
-    new Audio("/sounds/hit3.ogg"),
-    new Audio("/sounds/hit4.ogg"),
+    new Audio("/sounds/1.ogg"),
+    new Audio("/sounds/2.ogg"),
+    new Audio("/sounds/3.ogg"),
+    new Audio("/sounds/4.ogg"),
+    new Audio("/sounds/5.ogg"),
+    new Audio("/sounds/6.ogg"),
+    new Audio("/sounds/7.ogg"),
+    new Audio("/sounds/8.ogg"),
+    new Audio("/sounds/9.ogg"),
+    new Audio("/sounds/10.ogg"),
+    new Audio("/sounds/11.ogg"),
   ];
 
   const materials = [
@@ -103,6 +111,11 @@ function Geometries() {
       color: 0x2c3e50,
       roughness: 0.1,
       metalness: 0.5,
+    }),
+    new THREE.MeshStandardMaterial({
+      color: 0x3498db,
+      roughness: 0.1,
+      metalness: 1,
     }),
   ];
 
